@@ -14,7 +14,231 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      documents: {
+        Row: {
+          created_at: string
+          document_type: string | null
+          file_name: string
+          file_size: number | null
+          file_type: string
+          file_url: string
+          id: string
+          proposal_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          document_type?: string | null
+          file_name: string
+          file_size?: number | null
+          file_type: string
+          file_url: string
+          id?: string
+          proposal_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          document_type?: string | null
+          file_name?: string
+          file_size?: number | null
+          file_type?: string
+          file_url?: string
+          id?: string
+          proposal_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          payment_status: Database["public"]["Enums"]["payment_status"] | null
+          payment_type: Database["public"]["Enums"]["payment_type"]
+          proposal_id: string | null
+          stripe_payment_intent_id: string | null
+          stripe_session_id: string | null
+          transaction_date: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          payment_status?: Database["public"]["Enums"]["payment_status"] | null
+          payment_type: Database["public"]["Enums"]["payment_type"]
+          proposal_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          transaction_date?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          payment_status?: Database["public"]["Enums"]["payment_status"] | null
+          payment_type?: Database["public"]["Enums"]["payment_type"]
+          proposal_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          transaction_date?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bidder_type: Database["public"]["Enums"]["bidder_type"] | null
+          company_name: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          portfolio_links: string[] | null
+          primary_industry: string | null
+          registration_id: string | null
+          updated_at: string
+          verification_status:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          years_experience: number | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bidder_type?: Database["public"]["Enums"]["bidder_type"] | null
+          company_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          portfolio_links?: string[] | null
+          primary_industry?: string | null
+          registration_id?: string | null
+          updated_at?: string
+          verification_status?:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          years_experience?: number | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bidder_type?: Database["public"]["Enums"]["bidder_type"] | null
+          company_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          portfolio_links?: string[] | null
+          primary_industry?: string | null
+          registration_id?: string | null
+          updated_at?: string
+          verification_status?:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          years_experience?: number | null
+        }
+        Relationships: []
+      }
+      proposals: {
+        Row: {
+          ai_confidence_score: number | null
+          id: string
+          proposal_text: string
+          proposer_id: string
+          status: Database["public"]["Enums"]["proposal_status"] | null
+          submitted_at: string
+          tender_id: string
+          updated_at: string
+        }
+        Insert: {
+          ai_confidence_score?: number | null
+          id?: string
+          proposal_text: string
+          proposer_id: string
+          status?: Database["public"]["Enums"]["proposal_status"] | null
+          submitted_at?: string
+          tender_id: string
+          updated_at?: string
+        }
+        Update: {
+          ai_confidence_score?: number | null
+          id?: string
+          proposal_text?: string
+          proposer_id?: string
+          status?: Database["public"]["Enums"]["proposal_status"] | null
+          submitted_at?: string
+          tender_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposals_tender_id_fkey"
+            columns: ["tender_id"]
+            isOneToOne: false
+            referencedRelation: "tenders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tenders: {
+        Row: {
+          budget: number
+          category: string
+          created_at: string
+          creator_id: string
+          deadline: string
+          description: string
+          id: string
+          requirements: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          budget: number
+          category: string
+          created_at?: string
+          creator_id: string
+          deadline: string
+          description: string
+          id?: string
+          requirements?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          budget?: number
+          category?: string
+          created_at?: string
+          creator_id?: string
+          deadline?: string
+          description?: string
+          id?: string
+          requirements?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +247,14 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      bidder_type: "individual" | "freelancer" | "company" | "govt_agency"
+      payment_status: "pending" | "completed" | "failed" | "refunded"
+      payment_type:
+        | "submission_fee"
+        | "subscription_monthly"
+        | "subscription_yearly"
+      proposal_status: "pending" | "accepted" | "rejected" | "withdrawn"
+      verification_status: "unverified" | "pending" | "verified" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +381,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      bidder_type: ["individual", "freelancer", "company", "govt_agency"],
+      payment_status: ["pending", "completed", "failed", "refunded"],
+      payment_type: [
+        "submission_fee",
+        "subscription_monthly",
+        "subscription_yearly",
+      ],
+      proposal_status: ["pending", "accepted", "rejected", "withdrawn"],
+      verification_status: ["unverified", "pending", "verified", "rejected"],
+    },
   },
 } as const
