@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -5,6 +6,8 @@ import { Card } from "@/components/ui/card";
 import { Search, Filter, SlidersHorizontal } from "lucide-react";
 
 const TenderFilters = () => {
+  const [category, setCategory] = useState("");
+  const [deadline, setDeadline] = useState("");
   return (
     <Card className="p-6 space-y-4">
       <div className="flex items-center justify-between">
@@ -30,7 +33,7 @@ const TenderFilters = () => {
       {/* Category */}
       <div className="space-y-2">
         <label className="text-sm font-medium">Category</label>
-        <Select>
+        <Select value={category} onValueChange={setCategory}>
           <SelectTrigger>
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
@@ -56,7 +59,7 @@ const TenderFilters = () => {
       {/* Deadline */}
       <div className="space-y-2">
         <label className="text-sm font-medium">Deadline</label>
-        <Select>
+        <Select value={deadline} onValueChange={setDeadline}>
           <SelectTrigger>
             <SelectValue placeholder="Select timeframe" />
           </SelectTrigger>
